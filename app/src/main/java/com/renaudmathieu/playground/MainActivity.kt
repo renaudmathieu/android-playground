@@ -3,44 +3,41 @@ package com.renaudmathieu.playground
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.renaudmathieu.playground.ui.theme.PlaygroundTheme
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.format.DateTimeFormat
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PlaygroundTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                PersonRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    person = Person(
+                        givenName = "Renaud",
+                        familyName = "Mathieu",
+                        //birthDate = LocalDate(1987, Month.JULY, 5),
+                        //riends = listOf("Copinou 1", "Copinou 2")
+                    )
+                )
             }
+
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+@OptIn(FormatStringsInDatetimeFormats::class)
+val localDateFormat: DateTimeFormat<LocalDate> = LocalDate.Format {
+    byUnicodePattern("dd/MM/yyyy")
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PlaygroundTheme {
-        Greeting("Android")
-    }
-}
+
